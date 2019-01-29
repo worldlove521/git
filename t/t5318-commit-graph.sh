@@ -33,13 +33,13 @@ test_expect_success 'create commits and repack' '
 	git repack
 '
 
-graph_git_two_modes() {
+graph_git_two_modes () {
 	git -c core.commitGraph=true $1 >output
 	git -c core.commitGraph=false $1 >expect
 	test_cmp expect output
 }
 
-graph_git_behavior() {
+graph_git_behavior () {
 	MSG=$1
 	DIR=$2
 	BRANCH=$3
@@ -56,7 +56,7 @@ graph_git_behavior() {
 
 graph_git_behavior 'no graph' full commits/3 commits/1
 
-graph_read_expect() {
+graph_read_expect () {
 	OPTIONAL=""
 	NUM_CHUNKS=3
 	if test ! -z $2
@@ -372,7 +372,7 @@ GRAPH_BYTE_FOOTER=$(($GRAPH_OCTOPUS_DATA_OFFSET + 4 * $NUM_OCTOPUS_EDGES))
 # by inserting the data, then runs 'git commit-graph verify'
 # and places the output in the file 'err'. Test 'err' for
 # the given string.
-corrupt_graph_and_verify() {
+corrupt_graph_and_verify () {
 	pos=$1
 	data="${2:-\0}"
 	grepstr=$3
@@ -509,12 +509,12 @@ GRAPH_BYTE_UNUSED=7
 GRAPH_BYTE_HASH=8
 
 test_expect_success 'detect low chunk count (v2)' '
-	corrupt_graph_and_verify $GRAPH_CHUNK_COUNT "\02" \
+	corrupt_graph_and_verify $GRAPH_BYTE_CHUNK_COUNT "\02" \
 		"missing the .* chunk"
 '
 
 test_expect_success 'detect incorrect reachability index' '
-	corrupt_graph_and_verify $GRAPH_REACH_INDEX "\03" \
+	corrupt_graph_and_verify $GRAPH_BYTE_REACH_INDEX "\03" \
 		"reachability index version"
 '
 
